@@ -1,0 +1,57 @@
+<?php
+
+namespace Tests\Feature\Auth;
+
+use Tests\TestCase;
+use App\Models\User;
+use Tests\UserActions;
+use Tests\Helpers\Assertions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestsData;
+
+class SignupTest extends TestCase
+{
+    use RefreshDatabase, UserActions, Assertions;
+
+    protected function AssertThatPasswordWasHashed($userPassword)
+    {
+        return $this->assertNotEquals(User::first()->password, $userPassword);
+    }
+
+    protected function AssertThatTokenWasReturned($response)
+    {
+        return $this->assertNotNull($response->getData()->token);
+    }
+
+   /** @test */
+   public function a_user_can_signup_successfully()
+   {
+       //Arrange
+       $data = new TestsData;
+
+        // Act
+       $response = $this->attempt_user_signup();
+
+       // Assertions
+       $response->assertStatus(200);
+       $this->AssertThat_Model_WasCreated(User::class);
+       $this->AssertThatPasswordWasHashed($data::user()['password']);
+       $this->AssertThatTokenWasReturned($response);
+   }
+
+   /** @test */
+   public function a_user_cannot_signup_with_missing_details()
+   {
+       //Arrange
+       $data = new TestsData;
+
+       // Act
+       $response = $this->attempt_user_invalid_signup();
+
+       // Assertions
+       $response->assertStatus(422);
+       $this->Assert_That_No_Model_Was_Created(User::class);
+   }
+
+}
