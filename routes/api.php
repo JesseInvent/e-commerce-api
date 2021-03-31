@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReplyController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +18,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::apiResource('product', ProductController::class);
+Route::apiResource('review', ReviewController::class);
+Route::apiResource('reply', ReplyController::class);
+
+
+Route::group([
+    'prefix' => 'auth'
+], function () {
+    Route::post('me', [AuthController::class, 'me']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('signup', [AuthController::class, 'signup']);
+    Route::post('logout', [AuthController::class, 'logout']);
 });
