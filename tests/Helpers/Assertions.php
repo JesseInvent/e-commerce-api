@@ -38,4 +38,10 @@ trait Assertions
         return $this->assertNull(auth()->user());
     }
 
+
+    protected function AssertThatTokenWasReturned($response)
+    {
+        return $this->assertNotNull($response->getData()->token);
+    }
+
 }

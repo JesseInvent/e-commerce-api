@@ -8,6 +8,7 @@ use Tests\UserActions;
 use Tests\Helpers\Assertions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestsData;
 
 class SignupTest extends TestCase
@@ -17,11 +18,6 @@ class SignupTest extends TestCase
     protected function AssertThatPasswordWasHashed($userPassword)
     {
         return $this->assertNotEquals(User::first()->password, $userPassword);
-    }
-
-    protected function AssertThatTokenWasReturned($response)
-    {
-        return $this->assertNotNull($response->getData()->token);
     }
 
    /** @test */
@@ -50,7 +46,7 @@ class SignupTest extends TestCase
        $response = $this->attempt_user_invalid_signup();
 
        // Assertions
-       $response->assertStatus(422);
+       $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
        $this->Assert_That_No_Model_Was_Created(User::class);
    }
 
