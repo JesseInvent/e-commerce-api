@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductLikesTable extends Migration
+class CreateOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateProductLikesTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_likes', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id');
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete;
+            $table->integer('units');
+            $table->float('total_price');
+            $table->boolean('paid_status');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ class CreateProductLikesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_likes');
+        Schema::dropIfExists('orders');
     }
 }
