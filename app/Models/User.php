@@ -50,4 +50,15 @@ class User extends Authenticatable
     {
         return $this->attributes['password'] = Hash::make($value);
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
 }
