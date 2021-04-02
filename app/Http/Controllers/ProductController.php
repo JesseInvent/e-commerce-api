@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -16,14 +17,7 @@ class ProductController extends Controller
         $this->middleware('auth:sanctum')->except(['index', 'show']);
     }
 
-    protected function slugifyProductName($request)
-    {
-        return  $request->request->add(['slug' => Str::slug($request->name)]);
-
-    }
-
-
-    /**
+       /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -31,18 +25,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return response()->json($products, Response::HTTP_OK);
+        return response()->json(ProductResource::collection($products), Response::HTTP_OK);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -52,10 +37,8 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $this->slugifyProductName($request);
         $product = auth()->user()->products()->create($request->all());
-
-        return response()->json($product, Response::HTTP_CREATED);
+        return response()->json(new ProductResource($product), Response::HTTP_CREATED);
     }
 
     /**
@@ -66,18 +49,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return response()->json($product, Response::HTTP_OK);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
-    {
-        //
+        return response()->json(new ProductResource($product), Response::HTTP_OK);
     }
 
     /**
@@ -89,7 +61,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $this->slugifyProductName($request);
         $product->update($request->all());
         return response()->json(['Updated'], Response::HTTP_ACCEPTED);
     }

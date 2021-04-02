@@ -18,6 +18,7 @@ class ProductsTest extends TestCase
    /** @test */
     public function an_authenticated_user_can_create_a_product_with_valid_fields ()
     {
+        $this->withoutExceptionHandling();
 
         // Arrange
         $data = new TestsData;

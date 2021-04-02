@@ -20,6 +20,7 @@ class TestsData {
         return [
             'name' => 'Product 1',
             'images' => '/path/image.jpeg',
+            'price' => 299.54,
             'description' => 'product 1 description'
         ];
     }
@@ -30,6 +31,7 @@ class TestsData {
         return [
             'name' => 'updated product name',
             'images' => '/path/image.jpeg',
+            'price' => 499.54,
             'description' => 'product 1 description'
         ];
     }
