@@ -14,7 +14,7 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except(['index', 'show']);
+        $this->middleware('auth:sanctum')->except(['index', 'show', 'search']);
     }
 
        /**
@@ -50,6 +50,14 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         return response()->json(new ProductResource($product), Response::HTTP_OK);
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->query('search');
+        $products = Product::where('name', 'like', '%'.$search.'%')->get();
+        return response()->json(ProductResource::collection($products), Response::HTTP_ACCEPTED);
+
     }
 
     /**

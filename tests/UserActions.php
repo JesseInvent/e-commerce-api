@@ -83,4 +83,9 @@ trait UserActions {
         return $this->sendDeleteRequest('/api/product/'.Product::first()->id);
     }
 
+    public function attempt_product_search()
+    {
+        return $this->sendGetRequest('/api/product/search?search=product');
+    }
+
 }

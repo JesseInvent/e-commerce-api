@@ -144,5 +144,24 @@ class ProductsTest extends TestCase
         $this->assertNull(Product::first());
     }
 
+
+    /** @test */
+    public function user_can_search_a_product ()
+    {
+        $this->withoutExceptionHandling();
+        // Arrange
+        $data = new TestsData;
+
+        // Act
+        $authResponse = $this->attempt_user_signup();
+        $token = $authResponse->getData()->token;
+        $this->attempt_to_create_product_as_authenticated_user($token);
+        $response = $this->attempt_product_search();
+
+        // Assertions
+        $response->assertStatus(Response::HTTP_ACCEPTED);
+        $this->assertNotNull($response->getData());
+    }
+
 }
 

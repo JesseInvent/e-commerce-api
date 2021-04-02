@@ -27,6 +27,7 @@ Route::get('/', function () {
     return response()->json(['Welcome to E-commerce API'], Response::HTTP_OK);
 });
 
+Route::get('product/search', [ProductController::class, 'search']);
 
 Route::apiResource('product', ProductController::class);
 Route::apiResource('review', ReviewController::class);
@@ -36,8 +37,8 @@ Route::apiResource('reply', ReplyController::class);
 Route::group([
     'prefix' => 'auth'
 ], function () {
-    Route::get('me', [AuthController::class, 'me']);
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('signup', [AuthController::class, 'signup']);
-    Route::post('logout', [AuthController::class, 'logout']);
+        Route::get('me', [AuthController::class, 'me']);
+        Route::post('login', [AuthController::class, 'login']);
+        Route::post('signup', [AuthController::class, 'signup']);
+        Route::post('logout', [AuthController::class, 'logout']);
 });

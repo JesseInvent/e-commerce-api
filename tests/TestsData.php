@@ -18,7 +18,7 @@ class TestsData {
     public static function product() :array
     {
         return [
-            'name' => 'Product 1',
+            'name' => 'product 1',
             'images' => '/path/image.jpeg',
             'price' => 299.54,
             'description' => 'product 1 description'
