@@ -10,12 +10,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->only(['me', 'logout']);
+    }
 
     protected function getAndReturnUserToken($user)
     {
         $token = $user->createToken('accessToken', ['admin'])->plainTextToken;
 
-        return response()->json(['token' => $token], Response::HTTP_OK);
+        return response()->json(['user' => $user, 'token' => $token], Response::HTTP_OK);
     }
 
     public function  signup(SignupRequest $request)
@@ -28,6 +32,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+
         if(Auth::attempt($request->all())) {
 
             $user = User::where('email', $request->email)->first();
@@ -36,6 +41,18 @@ class AuthController extends Controller
         }
 
         return response()->json(['error' => 'Unauthorized'], Response::HTTP_BAD_REQUEST);
+
+    }
+
+    public function me(Request $request)
+    {
+        return response()->json(auth()->user(), Response::HTTP_ACCEPTED);
+    }
+
+    public function logout(Request $request)
+    {
+        auth()->user()->tokens()->delete();
+        return response([], Response::HTTP_NO_CONTENT);
 
     }
 

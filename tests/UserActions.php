@@ -2,31 +2,13 @@
 
 namespace Tests;
 
+use App\Models\Product;
+use App\Models\User;
+use Tests\Helpers\Requests;
+
 trait UserActions {
 
-    // Requests
-
-    protected function requestHeaders () :array
-    {
-        return [
-            'Accept' => 'application/json',
-        ];
-
-    }
-
-    protected function sendPostRequest(string $uri, array $data)
-    {
-        return $this->withHeaders($this->requestHeaders())
-                    ->post($uri, $data);
-    }
-
-    protected function sendPatchRequest(string $uri, string $data)
-    {
-        return $this->withHeaders($this->requestHeaders())
-                    ->patch($uri, $data);
-
-    }
-
+    use Requests;
 
     // Auth Actions
 
@@ -55,4 +37,50 @@ trait UserActions {
             'password' => 'wrongPassword',
         ]);
     }
+
+    // User Actions
+    public function attempt_to_get_user($token)
+    {
+        return $this->sendGetRequest('/api/auth/me', $token);
+    }
+
+
+    public function attempt_to_logout_with_token(string $token)
+    {
+        return $this->sendPostRequest('/api/auth/logout', [], $token);
+    }
+
+
+    // Product Actions
+
+    public function attempt_to_create_product_as_authenticated_user(string $token)
+    {
+        return $this->sendPostRequest('/api/product', TestsData::product(), $token);
+    }
+
+    public function attempt_to_create_product_as_authenticated_user_with_missing_field(string $token)
+    {
+        return $this->sendPostRequest('/api/product', array_merge(TestsData::product(), ['name' => '']), $token);
+    }
+
+    public function attempt_to_update_a_product(string $token)
+    {
+        return $this->sendPatchRequest('/api/product/'.Product::first()->id, TestsData::updatedProduct(), $token);
+    }
+
+    public function attempt_to_get_all_products()
+    {
+        return $this->sendGetRequest('/api/product');
+    }
+
+    public function attempt_to_get_a_product()
+    {
+        return $this->sendGetRequest('/api/product/'.Product::first()->id);
+    }
+
+    public function attempt_to_delete_a_product()
+    {
+        return $this->sendDeleteRequest('/api/product/'.Product::first()->id);
+    }
+
 }

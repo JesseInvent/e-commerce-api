@@ -26,21 +26,20 @@ class LoginTest extends TestCase
         $this->AssertThatTokenWasReturned($response);
     }
 
-      /** @test */
-      public function user_cannot_successfully_login_with_invalid_details ()
-      {
-          $this->withoutExceptionHandling();
+    /** @test */
+    public function user_cannot_successfully_login_with_invalid_details ()
+    {
+        $this->withoutExceptionHandling();
 
-          // Act
-          $this->attempt_user_signup();
-          $response = $this->attempt_user_invalid_login();
+        // Act
+        $this->attempt_user_signup();
+        $response = $this->attempt_user_invalid_login();
 
-        //   dd($response);
+        // Assertions
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $this->assertNull(auth()->user());
+        $this->assertNotNull($response->getData()->error);
+        $this->assertEquals($response->getData()->error, 'Unauthorized');
+    }
 
-          // Assertions
-          $response->assertStatus(Response::HTTP_BAD_REQUEST);
-          $this->assertNull(auth()->user());
-          $this->assertNotNull($response->getData()->error);
-          $this->assertEquals($response->getData()->error, 'Unauthorized');
-      }
 }

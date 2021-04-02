@@ -27,7 +27,6 @@ trait Assertions
         return $this->assertCount(0, $model::all());
     }
 
-
     public function AssertThat_User_IsLoggedIn()
     {
         return $this->assertNotNull(auth()->user());
@@ -44,4 +43,8 @@ trait Assertions
         return $this->assertNotNull($response->getData()->token);
     }
 
+    protected function AssertThatErrorExists($response)
+    {
+        return $this->assertNotNull($response->getData()->errors);
+    }
 }

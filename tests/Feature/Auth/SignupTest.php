@@ -48,6 +48,7 @@ class SignupTest extends TestCase
        // Assertions
        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
        $this->Assert_That_No_Model_Was_Created(User::class);
+       $this->AssertThatErrorExists($response);
    }
 
 }
