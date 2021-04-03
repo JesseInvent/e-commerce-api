@@ -29,12 +29,12 @@ class ProductLikeController extends Controller
                 'user_id' => auth()->user()->id
             ]);
 
-            return response()->json('', Response::HTTP_CREATED);
+            return response()->json(['message' => 'Product liked'], Response::HTTP_CREATED);
 
         }
 
         return response()->json([
-                'errors' => 'Post already like by user'
+                'errors' => 'Product already liked by user'
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
 
 
