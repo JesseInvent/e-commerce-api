@@ -43,7 +43,7 @@ class UserTest extends TestCase
     {
         // Act
         $this->attempt_user_signup();
-        $response = $this->attempt_to_logout_with_token();
+        $response = $this->attempt_to_logout();
 
         // Assertion
         $response->assertStatus(Response::HTTP_NO_CONTENT);

@@ -31,7 +31,7 @@ class SignupTest extends TestCase
 
        // Assertions
        $response->assertStatus(200);
-       $this->AssertThat_Model_WasCreated(User::class);
+       $this->AssertThatModelWasCreated(User::class);
        $this->AssertThatPasswordWasHashed($data::user()['password']);
        $this->AssertThatTokenWasReturned($response);
    }
@@ -47,7 +47,7 @@ class SignupTest extends TestCase
 
        // Assertions
        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-       $this->Assert_That_No_Model_Was_Created(User::class);
+       $this->AssertThatNoModelWasCreated(User::class);
        $this->AssertThatErrorExists($response);
    }
 

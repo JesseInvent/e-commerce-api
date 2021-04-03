@@ -28,7 +28,7 @@ class ProductsTest extends TestCase
 
         // Assertions
         $response->assertStatus(Response::HTTP_CREATED);
-        $this->AssertThat_Model_WasCreated(Product::class);
+        $this->AssertThatModelWasCreated(Product::class);
     }
 
 
@@ -44,7 +44,7 @@ class ProductsTest extends TestCase
 
         // Assertions
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->Assert_That_No_Model_Was_Created(Product::class);
+        $this->AssertThatNoModelWasCreated(Product::class);
         $this->AssertThatErrorExists($response);
     }
 
@@ -61,7 +61,7 @@ class ProductsTest extends TestCase
 
        // Assertions
        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
-       $this->Assert_That_No_Model_Was_Created(Product::class);
+       $this->AssertThatNoModelWasCreated(Product::class);
     }
 
     /** @test */
@@ -77,7 +77,7 @@ class ProductsTest extends TestCase
 
         // Assertions
         $response->assertStatus(Response::HTTP_ACCEPTED);
-        $this->AssertThat_Model_WasCreated(Product::class);
+        $this->AssertThatModelWasCreated(Product::class);
         $this->assertEquals($data::updatedProduct()['name'], Product::first()->name);
 
     }

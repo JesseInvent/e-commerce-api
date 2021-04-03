@@ -52,7 +52,7 @@ trait UserActions {
         return $this->sendGetRequest('/api/auth/me');
     }
 
-    public function attempt_to_logout_with_token()
+    public function attempt_to_logout()
     {
         return $this->sendPostRequest('/api/auth/logout', []);
     }
@@ -108,6 +108,17 @@ trait UserActions {
         $this->attempt_to_signup_and_create_a_product();
         $response = $this->attempt_to_create_product_as_authenticated_user();
         return $response;
+    }
+
+    public function attempt_to_like_a_product()
+    {
+        return $this->sendPostRequest('/api/product/'.Product::first()->id.'/like', []);
+    }
+
+
+    public function attempt_to_unlike_a_product()
+    {
+        return $this->sendDeleteRequest('/api/product/'.Product::first()->id.'/like', []);
     }
 
 }

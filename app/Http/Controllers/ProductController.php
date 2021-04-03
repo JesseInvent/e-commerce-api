@@ -17,7 +17,7 @@ class ProductController extends Controller
         $this->middleware('auth:sanctum')->except(['index', 'show', 'search']);
     }
 
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

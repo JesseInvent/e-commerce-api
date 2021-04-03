@@ -28,6 +28,11 @@ class Product extends Model
         'description'
     ];
 
+    public function likedBy(User $user)
+    {
+        return !!$this->likes()->where('user_id', $user->id)->count();
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

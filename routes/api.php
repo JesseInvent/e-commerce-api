@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductLikeController;
 use Symfony\Component\HttpFoundation\Response;
 
 /*
@@ -28,6 +29,8 @@ Route::get('/', function () {
 });
 
 Route::get('product/search', [ProductController::class, 'search']);
+Route::post('product/{product}/like', [ProductLikeController::class, 'store']);
+Route::delete('product/{product}/like', [ProductLikeController::class, 'destroy']);
 
 Route::apiResource('product', ProductController::class);
 Route::apiResource('review', ReviewController::class);

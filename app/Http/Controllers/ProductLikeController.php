@@ -2,29 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\ProductLike;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductLikeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function __construct()
     {
-        //
+        $this->middleware('auth:sanctum');
     }
 
     /**
@@ -33,44 +21,26 @@ class ProductLikeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Product $product)
     {
-        //
+        if (!$product->likedBy(auth()->user())) {
+
+            $product->likes()->create([
+                'user_id' => auth()->user()->id
+            ]);
+
+            return response()->json('', Response::HTTP_CREATED);
+
+        }
+
+        return response()->json([
+                'errors' => 'Post already like by user'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+
+
+        // Notify
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ProductLike  $productLike
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ProductLike $productLike)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ProductLike  $productLike
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ProductLike $productLike)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ProductLike  $productLike
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ProductLike $productLike)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -78,8 +48,10 @@ class ProductLikeController extends Controller
      * @param  \App\Models\ProductLike  $productLike
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProductLike $productLike)
+    public function destroy(Product $product)
     {
-        //
+        $product->likes()->where('user_id', auth()->user()->id)->delete();
+        return response()->json('', Response::HTTP_NO_CONTENT);
+
     }
 }
