@@ -88,4 +88,48 @@ trait UserActions {
         return $this->sendGetRequest('/api/product/search?search=product');
     }
 
+    public function attempt_to_signup_and_return_token()
+    {
+        $authResponse = $this->attempt_user_signup();
+        $token = $authResponse->getData()->token;
+        return $token;
+    }
+
+
+
+    public function signup_then_return_token()
+    {
+        $authResponse = $this->attempt_user_signup();
+        $token = $authResponse->getData()->token;
+        return $token;
+    }
+
+    public function signup_and_create_product_then_return_token()
+    {
+        $token = $this->signup_then_return_token();
+        $this->attempt_to_create_product_as_authenticated_user($token);
+        return $token;
+    }
+
+    public function attempt_to_signup_and_create_a_product_and_return_response_object()
+    {
+        $token = $this->signup_then_return_token();
+        $response = $this->attempt_to_create_product_as_authenticated_user($token);
+        return $response;
+    }
+
+    public function attempt_to_signup_and_create_a_product_then_return_token()
+    {
+        $token = $this->signup_and_create_product_then_return_token();
+        return $token;
+    }
+
+
+    public function attempt_to_signup_and_create_multiple_products()
+    {
+        $token = $this->signup_and_create_product_then_return_token();
+        $this->attempt_to_create_product_as_authenticated_user($token);
+        return true;
+    }
+
 }

@@ -24,9 +24,7 @@ class ProductsTest extends TestCase
         $data = new TestsData;
 
         // Act
-        $authResponse = $this->attempt_user_signup();
-        $token = $authResponse->getData()->token;
-        $response = $this->attempt_to_create_product_as_authenticated_user($token);
+        $response = $this->attempt_to_signup_and_create_a_product_and_return_response_object();
 
         // Assertions
         $response->assertStatus(Response::HTTP_CREATED);
@@ -41,8 +39,7 @@ class ProductsTest extends TestCase
         $data = new TestsData;
 
         // Act
-        $authResponse = $this->attempt_user_signup();
-        $token = $authResponse->getData()->token;
+        $token = $this->attempt_to_signup_and_return_token();
         $response = $this->attempt_to_create_product_as_authenticated_user_with_missing_field($token);
 
         // Assertions
@@ -75,9 +72,7 @@ class ProductsTest extends TestCase
         $data = new TestsData;
 
         // Act
-        $authResponse = $this->attempt_user_signup();
-        $token = $authResponse->getData()->token;
-        $this->attempt_to_create_product_as_authenticated_user($token);
+        $token = $this->attempt_to_signup_and_create_a_product_then_return_token();
         $response = $this->attempt_to_update_a_product($token);
 
         // Assertions
@@ -95,10 +90,7 @@ class ProductsTest extends TestCase
         $data = new TestsData;
 
         // Act
-        $authResponse = $this->attempt_user_signup();
-        $token = $authResponse->getData()->token;
-        $this->attempt_to_create_product_as_authenticated_user($token);
-        $this->attempt_to_create_product_as_authenticated_user($token);
+        $this->attempt_to_signup_and_create_multiple_products();
         $response = $this->attempt_to_get_all_products();
 
         // Assertions
@@ -115,10 +107,7 @@ class ProductsTest extends TestCase
         $data = new TestsData;
 
         // Act
-        $authResponse = $this->attempt_user_signup();
-        $token = $authResponse->getData()->token;
-        $this->attempt_to_create_product_as_authenticated_user($token);
-        $this->attempt_to_create_product_as_authenticated_user($token);
+        $this->attempt_to_signup_and_create_multiple_products();
         $response = $this->attempt_to_get_a_product();
 
         // Assertions
@@ -134,9 +123,7 @@ class ProductsTest extends TestCase
         $data = new TestsData;
 
         // Act
-        $authResponse = $this->attempt_user_signup();
-        $token = $authResponse->getData()->token;
-        $this->attempt_to_create_product_as_authenticated_user($token);
+        $token = $this->attempt_to_signup_and_create_a_product_then_return_token();
         $response = $this->attempt_to_delete_a_product($token);
 
         // Assertions
@@ -153,9 +140,7 @@ class ProductsTest extends TestCase
         $data = new TestsData;
 
         // Act
-        $authResponse = $this->attempt_user_signup();
-        $token = $authResponse->getData()->token;
-        $this->attempt_to_create_product_as_authenticated_user($token);
+        $this->attempt_to_signup_and_create_a_product_and_return_response_object();
         $response = $this->attempt_product_search();
 
         // Assertions
