@@ -4,6 +4,8 @@ namespace Tests\Helpers;
 
 trait Requests {
 
+    public $token;
+
     protected function defaultHeaders() :array
     {
         return [
@@ -12,38 +14,38 @@ trait Requests {
 
     }
 
-    protected function getRequestHeaders($token)
+    protected function getRequestHeaders()
     {
-        (!$token) ? $headers = $this->defaultHeaders() : $headers =  array_merge($this->defaultHeaders(), [
-            'Authorization' => "Bearer {$token}"
+        (!$this->token && $this->token !== '') ? $headers = $this->defaultHeaders() : $headers =  array_merge($this->defaultHeaders(), [
+            'Authorization' => "Bearer {$this->token}"
         ]);
 
         return $headers;
 
     }
 
-    public function sendGetRequest(string $uri, string $token = null)
+    public function sendGetRequest(string $uri)
     {
-        return $this->withHeaders($this->getRequestHeaders($token))
+        return $this->withHeaders($this->getRequestHeaders())
                     ->get($uri);
 
     }
 
-    public function sendPostRequest(string $uri, array $data, string $token = null)
+    public function sendPostRequest(string $uri, array $data)
     {
-        return $this->withHeaders($this->getRequestHeaders($token))
+        return $this->withHeaders($this->getRequestHeaders())
                     ->post($uri, $data);
     }
 
-    public function sendPatchRequest(string $uri, array $data, string $token = null)
+    public function sendPatchRequest(string $uri, array $data)
     {
-        return $this->withHeaders($this->getRequestHeaders($token))
+        return $this->withHeaders($this->getRequestHeaders())
                     ->patch($uri, $data);
     }
 
-    public function sendDeleteRequest(string $uri, string $token = null)
+    public function sendDeleteRequest(string $uri)
     {
-        return $this->withHeaders($this->getRequestHeaders($token))
+        return $this->withHeaders($this->getRequestHeaders())
                     ->delete($uri);
 
     }

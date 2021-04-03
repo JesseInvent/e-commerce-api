@@ -16,9 +16,8 @@ class UserTest extends TestCase
     public function an_authenticated_user_can_get_user_details()
     {
         // Act
-        $authResponse = $this->attempt_user_signup();
-        $token = $authResponse->getData()->token;
-        $response = $this->attempt_to_get_user($token);
+        $this->attempt_user_signup();
+        $response = $this->attempt_to_get_user();
 
         // Assertion
         $response->assertStatus(Response::HTTP_ACCEPTED);
@@ -32,7 +31,7 @@ class UserTest extends TestCase
     {
         // Act
         $this->attempt_user_signup();
-        $response = $this->attempt_to_get_user('invalidToken');
+        $response = $this->attempt_to_get_user_without_token();
 
         // Assertion
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
@@ -43,9 +42,8 @@ class UserTest extends TestCase
     public function an_authenticated_user_can_log_out_by_deleting_token()
     {
         // Act
-        $authResponse = $this->attempt_user_signup();
-        $token = $authResponse->getData()->token;
-        $response = $this->attempt_to_logout_with_token($token);
+        $this->attempt_user_signup();
+        $response = $this->attempt_to_logout_with_token();
 
         // Assertion
         $response->assertStatus(Response::HTTP_NO_CONTENT);

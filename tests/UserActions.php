@@ -14,7 +14,9 @@ trait UserActions {
 
     public function attempt_user_signup()
     {
-        return $this->sendPostRequest('/api/auth/signup', TestsData::user());
+        $response = $this->sendPostRequest('/api/auth/signup', TestsData::user());
+        $this->token = $response->getData()->token;
+        return $response;
     }
 
     public function attempt_user_invalid_signup()
@@ -39,33 +41,38 @@ trait UserActions {
     }
 
     // User Actions
-    public function attempt_to_get_user($token)
+    public function attempt_to_get_user()
     {
-        return $this->sendGetRequest('/api/auth/me', $token);
+        return $this->sendGetRequest('/api/auth/me');
     }
 
-
-    public function attempt_to_logout_with_token(string $token)
+    public function attempt_to_get_user_without_token()
     {
-        return $this->sendPostRequest('/api/auth/logout', [], $token);
+        $this->token = '';
+        return $this->sendGetRequest('/api/auth/me');
+    }
+
+    public function attempt_to_logout_with_token()
+    {
+        return $this->sendPostRequest('/api/auth/logout', []);
     }
 
 
     // Product Actions
 
-    public function attempt_to_create_product_as_authenticated_user(string $token)
+    public function attempt_to_create_product_as_authenticated_user()
     {
-        return $this->sendPostRequest('/api/product', TestsData::product(), $token);
+        return $this->sendPostRequest('/api/product', TestsData::product());
     }
 
-    public function attempt_to_create_product_as_authenticated_user_with_missing_field(string $token)
+    public function attempt_to_create_product_as_authenticated_user_with_missing_field()
     {
-        return $this->sendPostRequest('/api/product', array_merge(TestsData::product(), ['name' => '']), $token);
+        return $this->sendPostRequest('/api/product', array_merge(TestsData::product(), ['name' => '']));
     }
 
-    public function attempt_to_update_a_product(string $token)
+    public function attempt_to_update_a_product()
     {
-        return $this->sendPatchRequest('/api/product/'.Product::first()->id, TestsData::updatedProduct(), $token);
+        return $this->sendPatchRequest('/api/product/'.Product::first()->id, TestsData::updatedProduct());
     }
 
     public function attempt_to_get_all_products()
@@ -88,48 +95,19 @@ trait UserActions {
         return $this->sendGetRequest('/api/product/search?search=product');
     }
 
-    public function attempt_to_signup_and_return_token()
+
+    public function attempt_to_signup_and_create_a_product()
     {
-        $authResponse = $this->attempt_user_signup();
-        $token = $authResponse->getData()->token;
-        return $token;
-    }
-
-
-
-    public function signup_then_return_token()
-    {
-        $authResponse = $this->attempt_user_signup();
-        $token = $authResponse->getData()->token;
-        return $token;
-    }
-
-    public function signup_and_create_product_then_return_token()
-    {
-        $token = $this->signup_then_return_token();
-        $this->attempt_to_create_product_as_authenticated_user($token);
-        return $token;
-    }
-
-    public function attempt_to_signup_and_create_a_product_and_return_response_object()
-    {
-        $token = $this->signup_then_return_token();
-        $response = $this->attempt_to_create_product_as_authenticated_user($token);
+        $this->attempt_user_signup();
+        $response = $this->attempt_to_create_product_as_authenticated_user();
         return $response;
     }
 
-    public function attempt_to_signup_and_create_a_product_then_return_token()
-    {
-        $token = $this->signup_and_create_product_then_return_token();
-        return $token;
-    }
-
-
     public function attempt_to_signup_and_create_multiple_products()
     {
-        $token = $this->signup_and_create_product_then_return_token();
-        $this->attempt_to_create_product_as_authenticated_user($token);
-        return true;
+        $this->attempt_to_signup_and_create_a_product();
+        $response = $this->attempt_to_create_product_as_authenticated_user();
+        return $response;
     }
 
 }

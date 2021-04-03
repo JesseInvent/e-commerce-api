@@ -24,7 +24,7 @@ class ProductsTest extends TestCase
         $data = new TestsData;
 
         // Act
-        $response = $this->attempt_to_signup_and_create_a_product_and_return_response_object();
+        $response = $this->attempt_to_signup_and_create_a_product();
 
         // Assertions
         $response->assertStatus(Response::HTTP_CREATED);
@@ -39,8 +39,8 @@ class ProductsTest extends TestCase
         $data = new TestsData;
 
         // Act
-        $token = $this->attempt_to_signup_and_return_token();
-        $response = $this->attempt_to_create_product_as_authenticated_user_with_missing_field($token);
+        $this->attempt_user_signup();
+        $response = $this->attempt_to_create_product_as_authenticated_user_with_missing_field();
 
         // Assertions
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -72,8 +72,8 @@ class ProductsTest extends TestCase
         $data = new TestsData;
 
         // Act
-        $token = $this->attempt_to_signup_and_create_a_product_then_return_token();
-        $response = $this->attempt_to_update_a_product($token);
+        $this->attempt_to_signup_and_create_a_product();
+        $response = $this->attempt_to_update_a_product();
 
         // Assertions
         $response->assertStatus(Response::HTTP_ACCEPTED);
@@ -123,8 +123,8 @@ class ProductsTest extends TestCase
         $data = new TestsData;
 
         // Act
-        $token = $this->attempt_to_signup_and_create_a_product_then_return_token();
-        $response = $this->attempt_to_delete_a_product($token);
+        $this->attempt_to_signup_and_create_a_product();
+        $response = $this->attempt_to_delete_a_product();
 
         // Assertions
         $response->assertStatus(Response::HTTP_NO_CONTENT);
@@ -140,7 +140,7 @@ class ProductsTest extends TestCase
         $data = new TestsData;
 
         // Act
-        $this->attempt_to_signup_and_create_a_product_and_return_response_object();
+        $this->attempt_to_signup_and_create_a_product();
         $response = $this->attempt_product_search();
 
         // Assertions
