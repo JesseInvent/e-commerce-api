@@ -41,7 +41,6 @@ class ProductLikeController extends Controller
         // Notify
     }
 
-
     /**
      * Remove the specified resource from storage.
      *

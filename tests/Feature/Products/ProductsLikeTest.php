@@ -57,7 +57,6 @@ class ProductsLikeTest extends TestCase
     /** @test */
     public function user_can_unlike_a_product_liked_by_user()
     {
-
         $this->withoutExceptionHandling();
 
         // Act
