@@ -16,12 +16,22 @@ class Review extends Model
 
     public function ownedBy($user)
     {
-        return $this->user_id == $user->id;
+        return (int) $this->user_id === (int) $user->id;
+    }
+
+    public function belongsToProductCreatedBy($user)
+    {
+        return (int) $this->user_id === (int) $this->product()->user_id;
     }
 
     public function likes()
     {
         return $this->hasMany(ReviewLike::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 
     public function replies()

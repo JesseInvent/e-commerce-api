@@ -13,7 +13,7 @@ class ReviewController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except('index');
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
     }
 
     /**
@@ -68,10 +68,9 @@ class ReviewController extends Controller
 
             $review->update($request->all());
             return response()->json(['Updated'], Response::HTTP_ACCEPTED);
-
         }
 
-        return response()->json(['errors' => 'Review not owned by user'], Response::HTTP_BAD_REQUEST);
+        return response()->json(['errors' => 'Review not owned by user, can`t update'], Response::HTTP_BAD_REQUEST);
 
     }
 
@@ -83,7 +82,12 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-        $review->delete();
-        return response([], Response::HTTP_NO_CONTENT);
+        if ($review->ownedBy(auth()->user()) || $review->belongsToAProductCreatedBy(auth()->user())) {
+            $review->delete();
+            return response([], Response::HTTP_NO_CONTENT);
+        }
+
+        return response()->json(['errors' => 'Review not owned by user and user did not the product review belongs to'], Response::HTTP_BAD_REQUEST);
+
     }
 }
