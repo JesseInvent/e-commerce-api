@@ -16,7 +16,8 @@ class ReviewResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'review' => $this->review,
+            'body' => $this->body,
+            'link' => route('review.update', $this->id),
             'created' => $this->created_at->diffForHumans()
         ];
     }

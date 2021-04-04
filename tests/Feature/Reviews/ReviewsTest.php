@@ -54,7 +54,7 @@ class ReviewsTest extends TestCase
         // Arrange
         $response->assertStatus(Response::HTTP_ACCEPTED);
         $this->AssertThatModelWasCreated(Review::class);
-        $this->assertEquals(Review::first()->review, TestsData::updateReview()['review']);
+        $this->assertEquals(Review::first()->body, TestsData::updateReview()['body']);
 
     }
 

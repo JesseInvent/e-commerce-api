@@ -39,14 +39,14 @@ class TestsData {
     public static function review() :array
     {
         return [
-            'review' => 'Nice product'
+            'body' => 'Nice product'
         ];
     }
 
     public static function updateReview() :array
     {
         return [
-            'review' => 'Updated Review'
+            'body' => 'Updated Review'
         ];
     }
 }

@@ -23,7 +23,7 @@ class ReviewController extends Controller
      */
     public function index(Product $product)
     {
-        $reviews = $product->reviews()->get();
+        $reviews = $product->reviews()->latest()->get();
         return response()->json(ReviewResource::collection($reviews), Response::HTTP_OK);
     }
 
@@ -36,7 +36,7 @@ class ReviewController extends Controller
     public function store(ReviewRequest $request, Product $product)
     {
         $review = $product->reviews()->create([
-                                        'review' => $request->review,
+                                        'body' => $request->body,
                                         'user_id' => auth()->user()->id
                                     ]);
         // notify user
