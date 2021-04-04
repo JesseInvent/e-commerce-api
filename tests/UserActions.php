@@ -151,4 +151,14 @@ trait UserActions {
     {
         return $this->sendGetRequest('/api/review/'.Review::first()->id);
     }
+
+    public function attempt_to_like_a_review()
+    {
+        return $this->sendPostRequest('/api/review/'.Review::first()->id.'/like', []);
+    }
+
+    public function attempt_to_unlike_a_review()
+    {
+        return $this->sendDeleteRequest('/api/review/'.Review::first()->id.'/like');
+    }
 }

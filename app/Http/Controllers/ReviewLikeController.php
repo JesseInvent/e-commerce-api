@@ -2,30 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
 use App\Models\ReviewLike;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ReviewLikeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -33,43 +16,18 @@ class ReviewLikeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Review $review)
     {
-        //
-    }
+       if (!$review->hasBeenlikedBy(auth()->user())) {
+            $review->likes()->create([
+                'user_id' => auth()->user()->id
+            ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ReviewLike  $reviewLike
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ReviewLike $reviewLike)
-    {
-        //
-    }
+            return response()->json(['message' => 'Review successfully liked'], Response::HTTP_CREATED);
+       }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ReviewLike  $reviewLike
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ReviewLike $reviewLike)
-    {
-        //
-    }
+       return response()->json(['errors' => 'Reviews already liked by user'], Response::HTTP_UNPROCESSABLE_ENTITY);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ReviewLike  $reviewLike
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ReviewLike $reviewLike)
-    {
-        //
     }
 
     /**
@@ -78,8 +36,10 @@ class ReviewLikeController extends Controller
      * @param  \App\Models\ReviewLike  $reviewLike
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ReviewLike $reviewLike)
+    public function destroy(Review $review)
     {
-        //
+        $review->likes()->where('user_id', auth()->user()->id)->delete();
+
+        return response([], Response::HTTP_NO_CONTENT);
     }
 }

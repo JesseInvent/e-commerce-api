@@ -24,6 +24,11 @@ class Review extends Model
         return (int) $this->user_id === (int) $this->product()->user_id;
     }
 
+    public function hasBeenlikedBy(User $user)
+    {
+        return !!$this->likes()->where('user_id', $user->id)->count();
+    }
+
     public function likes()
     {
         return $this->hasMany(ReviewLike::class);

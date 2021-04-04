@@ -37,7 +37,6 @@ trait Assertions
         return $this->assertNull(auth()->user());
     }
 
-
     protected function AssertThatTokenWasReturned($response)
     {
         return $this->assertNotNull($response->getData()->token);
@@ -53,9 +52,13 @@ trait Assertions
         return $this->assertEquals(\App\Models\ProductLike::where('user_id', auth()->user()->id)->count(), 1);
     }
 
-    protected function AssertThatPostWasUnLiked()
+    protected function AssertThatProductWasUnLiked()
     {
         return $this->assertEquals(\App\Models\ProductLike::where('user_id', auth()->user()->id)->count(), 0);
+    }
+    protected function AssertThatReviewWasUnLiked()
+    {
+        return $this->assertEquals(\App\Models\ReviewLike::where('user_id', auth()->user()->id)->count(), 0);
     }
 
 }

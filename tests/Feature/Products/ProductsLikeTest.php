@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Products;
 
+use App\Models\ProductLike;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,14 +22,6 @@ class ProductsLikeTest extends TestCase
 
     }
 
-    protected function perform_product_unlike()
-    {
-        $this->attempt_to_signup_and_create_a_product();
-        $response = $this->attempt_to_unlike_a_product();
-        return $response;
-
-    }
-
     /** @test */
     public function an_authenticated_user_can_like_a_product()
     {
@@ -42,7 +35,7 @@ class ProductsLikeTest extends TestCase
     }
 
     /** @test */
-    public function user_cant_like_a_product_twice()
+    public function an_authenticated_user_cant_like_a_product_twice()
     {
         // Act
         $this->perform_product_like();
@@ -55,7 +48,7 @@ class ProductsLikeTest extends TestCase
     }
 
     /** @test */
-    public function user_can_unlike_a_product_liked_by_user()
+    public function an_authenticated_user_can_unlike_a_product_liked_by_user()
     {
         $this->withoutExceptionHandling();
 
@@ -65,7 +58,7 @@ class ProductsLikeTest extends TestCase
 
         // Assertions
         $response->assertStatus(Response::HTTP_NO_CONTENT);
-        $this->AssertThatPostWasUnLiked();
+        $this->AssertThatProductWasUnLiked();
 
     }
 

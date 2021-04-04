@@ -7,6 +7,7 @@ use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductLikeController;
+use App\Http\Controllers\ReviewLikeController;
 use Symfony\Component\HttpFoundation\Response;
 
 /*
@@ -33,6 +34,9 @@ Route::post('product/{product}/like', [ProductLikeController::class, 'store'])->
 Route::delete('product/{product}/like', [ProductLikeController::class, 'destroy'])->name('product.unlike');
 Route::get('product/{product}/review', [ReviewController::class, 'index'])->name('review.index');
 Route::post('product/{product}/review', [ReviewController::class, 'store'])->name('review.store');
+
+Route::post('review/{review}/like', [ReviewLikeController::class, 'store'])->name('review.like');
+Route::delete('review/{review}/like', [ReviewLikeController::class, 'destroy'])->name('review.unlike');
 
 
 Route::apiResource('product', ProductController::class);

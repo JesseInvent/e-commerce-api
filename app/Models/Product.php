@@ -14,7 +14,6 @@ class Product extends Model
     protected static function boot ()
     {
         parent::boot();
-
         static::creating(function($product){
             $product->slug = Str::slug($product->name);
         });
@@ -28,7 +27,7 @@ class Product extends Model
         'description'
     ];
 
-    public function likedBy(User $user)
+    public function hasBeenlikedBy(User $user)
     {
         return !!$this->likes()->where('user_id', $user->id)->count();
     }

@@ -23,13 +23,13 @@ class ProductLikeController extends Controller
      */
     public function store(Product $product)
     {
-        if (!$product->likedBy(auth()->user())) {
+        if (!$product->hasBeenlikedBy(auth()->user())) {
 
             $product->likes()->create([
                 'user_id' => auth()->user()->id
             ]);
 
-            return response()->json(['message' => 'Product liked'], Response::HTTP_CREATED);
+            return response()->json(['message' => 'Product successfully liked'], Response::HTTP_CREATED);
 
         }
 
@@ -38,7 +38,7 @@ class ProductLikeController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
 
 
-        // Notify
+        // Notify user
     }
 
     /**
@@ -50,7 +50,7 @@ class ProductLikeController extends Controller
     public function destroy(Product $product)
     {
         $product->likes()->where('user_id', auth()->user()->id)->delete();
-        return response()->json('', Response::HTTP_NO_CONTENT);
+        return response([], Response::HTTP_NO_CONTENT);
 
     }
 }
