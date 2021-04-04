@@ -14,7 +14,7 @@ class Review extends Model
         'user_id'
     ];
 
-    public function ownedBy($user)
+    public function wasCreatedBy($user)
     {
         return (int) $this->user_id === (int) $user->id;
     }

@@ -64,7 +64,7 @@ class ReviewController extends Controller
      */
     public function update(Request $request, Review $review)
     {
-        if ($review->ownedBy(auth()->user())) {
+        if ($review->wasCreatedBy(auth()->user())) {
 
             $review->update($request->all());
             return response()->json(['Updated'], Response::HTTP_ACCEPTED);
@@ -82,7 +82,7 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-        if ($review->ownedBy(auth()->user()) || $review->belongsToAProductCreatedBy(auth()->user())) {
+        if ($review->wasCreatedBy(auth()->user()) || $review->belongsToAProductCreatedBy(auth()->user())) {
             $review->delete();
             return response([], Response::HTTP_NO_CONTENT);
         }
