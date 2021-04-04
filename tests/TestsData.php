@@ -26,13 +26,27 @@ class TestsData {
     }
 
 
-    public static function updatedProduct() :array
+    public static function updateProduct() :array
     {
         return [
             'name' => 'updated product name',
             'images' => '/path/image.jpeg',
             'price' => 499.54,
             'description' => 'product 1 description'
+        ];
+    }
+
+    public static function review() :array
+    {
+        return [
+            'review' => 'Nice product'
+        ];
+    }
+
+    public static function updateReview() :array
+    {
+        return [
+            'review' => 'Updated Review'
         ];
     }
 }

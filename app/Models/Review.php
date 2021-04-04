@@ -9,6 +9,16 @@ class Review extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'review',
+        'user_id'
+    ];
+
+    public function ownedBy($user)
+    {
+        return $this->user_id == $user->id;
+    }
+
     public function likes()
     {
         return $this->hasMany(ReviewLike::class);

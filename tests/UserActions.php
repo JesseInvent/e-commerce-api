@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\Product;
+use App\Models\Review;
 use App\Models\User;
 use Tests\Helpers\Requests;
 
@@ -72,7 +73,7 @@ trait UserActions {
 
     public function attempt_to_update_a_product()
     {
-        return $this->sendPatchRequest('/api/product/'.Product::first()->id, TestsData::updatedProduct());
+        return $this->sendPatchRequest('/api/product/'.Product::first()->id, TestsData::updateProduct());
     }
 
     public function attempt_to_get_all_products()
@@ -94,7 +95,6 @@ trait UserActions {
     {
         return $this->sendGetRequest('/api/product/search?search=product');
     }
-
 
     public function attempt_to_signup_and_create_a_product()
     {
@@ -121,4 +121,34 @@ trait UserActions {
         return $this->sendDeleteRequest('/api/product/'.Product::first()->id.'/like', []);
     }
 
+    // Reviews
+    public function attempt_to_review_a_product()
+    {
+        return $this->sendPostRequest('/api/product/'.Product::first()->id.'/review', TestsData::review());
+    }
+
+    public function attempt_to_review_a_product_without_review_message()
+    {
+        return $this->sendPostRequest('/api/product/'.Product::first()->id.'/review', []);
+    }
+
+    public function attempt_to_update_a_review()
+    {
+        return $this->sendPatchRequest('/api/review/'.Review::first()->id, TestsData::updateReview());
+    }
+
+    public function attempt_to_delete_a_review()
+    {
+        return $this->sendDeleteRequest('/api/review/'.Review::first()->id);
+    }
+
+    public function attempt_to_get_all_reviews_of_a_product()
+    {
+        return $this->sendGetRequest('/api/product/'.Product::first()->id.'/review');
+    }
+
+    public function attempt_to_get_a_review()
+    {
+        return $this->sendGetRequest('/api/review/'.Review::first()->id);
+    }
 }

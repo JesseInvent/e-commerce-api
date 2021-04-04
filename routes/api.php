@@ -29,13 +29,15 @@ Route::get('/', function () {
 });
 
 Route::get('product/search', [ProductController::class, 'search']);
-Route::post('product/{product}/like', [ProductLikeController::class, 'store']);
-Route::delete('product/{product}/like', [ProductLikeController::class, 'destroy']);
+Route::post('product/{product}/like', [ProductLikeController::class, 'store'])->name('product.like');
+Route::delete('product/{product}/like', [ProductLikeController::class, 'destroy'])->name('product.unlike');
+Route::get('product/{product}/review', [ReviewController::class, 'index'])->name('review.index');
+Route::post('product/{product}/review', [ReviewController::class, 'store'])->name('review.store');
+
 
 Route::apiResource('product', ProductController::class);
 Route::apiResource('review', ReviewController::class);
 Route::apiResource('reply', ReplyController::class);
-
 
 Route::group([
     'prefix' => 'auth'

@@ -78,7 +78,7 @@ class ProductsTest extends TestCase
         // Assertions
         $response->assertStatus(Response::HTTP_ACCEPTED);
         $this->AssertThatModelWasCreated(Product::class);
-        $this->assertEquals($data::updatedProduct()['name'], Product::first()->name);
+        $this->assertEquals($data::updateProduct()['name'], Product::first()->name);
 
     }
 
