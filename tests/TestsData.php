@@ -49,4 +49,19 @@ class TestsData {
             'body' => 'Updated Review'
         ];
     }
+
+    public static function reviewReply() :array
+    {
+        return [
+            'body' => 'Thanks for your feedback!'
+        ];
+    }
+
+    public static function reviewUpdateReply() :array
+    {
+        return [
+            'body' => 'Thanks for your feedback! updated'
+        ];
+    }
+
 }

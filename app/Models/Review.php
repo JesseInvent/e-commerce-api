@@ -19,6 +19,12 @@ class Review extends Model
         return (int) $this->user_id === (int) $user->id;
     }
 
+    public function productWasCreatedBy($user)
+    {
+        $product_id = $this->product()->where('id', $this->product_id)->value('id');
+        return (int) $product_id === (int) $user->id;
+    }
+
     public function belongsToProductCreatedBy($user)
     {
         return (int) $this->user_id === (int) $this->product()->user_id;

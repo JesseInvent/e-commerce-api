@@ -32,6 +32,11 @@ class Product extends Model
         return !!$this->likes()->where('user_id', $user->id)->count();
     }
 
+    public function wasCreatedBy(User $user)
+    {
+        return (int) $this->user_id === (int) $user->id;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

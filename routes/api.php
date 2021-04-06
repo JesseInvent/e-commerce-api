@@ -21,10 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 Route::get('/', function () {
     return response()->json(['Welcome to E-commerce API'], Response::HTTP_OK);
 });
@@ -38,6 +34,8 @@ Route::post('product/{product}/review', [ReviewController::class, 'store'])->nam
 Route::post('review/{review}/like', [ReviewLikeController::class, 'store'])->name('review.like');
 Route::delete('review/{review}/like', [ReviewLikeController::class, 'destroy'])->name('review.unlike');
 
+Route::post('review/{review}/reply', [ReplyController::class, 'store'])->name('reply.store');
+Route::delete('review/{review}/reply', [ReplyController::class, 'destroy'])->name('reply.destroy');
 
 Route::apiResource('product', ProductController::class);
 Route::apiResource('review', ReviewController::class);

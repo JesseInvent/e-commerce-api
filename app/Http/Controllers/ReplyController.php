@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reply;
+use App\Models\Review;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ReplyController extends Controller
 {
@@ -18,24 +20,25 @@ class ReplyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Review $review)
     {
-        //
+        if($review->productWasCreatedBy(auth()->user())) {
+
+            $reply = $review->replies()->create([
+                'user_id' => auth()->user()->id,
+                'body' => $request->body
+            ]);
+
+            return response()->json($reply, Response::HTTP_CREATED);
+        }
+
+        return response()->json(['errors' => 'User didn`t create product, can`t reply product review'], Response::HTTP_CREATED);
+
     }
 
     /**
@@ -46,19 +49,9 @@ class ReplyController extends Controller
      */
     public function show(Reply $reply)
     {
-        //
+        return response()->json($reply, Response::HTTP_OK);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Reply  $reply
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Reply $reply)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -69,7 +62,8 @@ class ReplyController extends Controller
      */
     public function update(Request $request, Reply $reply)
     {
-        //
+        $reply->update(['body' => $request->body]);
+        return response()->json(['Updated'], Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -80,6 +74,7 @@ class ReplyController extends Controller
      */
     public function destroy(Reply $reply)
     {
-        //
+        $reply->delete();
+        return response([], Response::HTTP_NO_CONTENT);
     }
 }

@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\Product;
+use App\Models\Reply;
 use App\Models\Review;
 use App\Models\User;
 use Tests\Helpers\Requests;
@@ -115,7 +116,6 @@ trait UserActions {
         return $this->sendPostRequest('/api/product/'.Product::first()->id.'/like', []);
     }
 
-
     public function attempt_to_unlike_a_product()
     {
         return $this->sendDeleteRequest('/api/product/'.Product::first()->id.'/like', []);
@@ -160,5 +160,26 @@ trait UserActions {
     public function attempt_to_unlike_a_review()
     {
         return $this->sendDeleteRequest('/api/review/'.Review::first()->id.'/like');
+    }
+
+    // Replies
+    public function attempt_to_reply_a_review()
+    {
+        return $this->sendPostRequest('/api/review/'.Review::first()->id.'/reply', TestsData::reviewReply());
+    }
+
+    public function attempt_to_get_a_reply()
+    {
+        return $this->sendGetRequest('/api/reply/'.Reply::first()->id);
+    }
+
+    public function attempt_to_edit_a_reply()
+    {
+        return $this->sendPatchRequest('/api/reply/'.Reply::first()->id, TestsData::reviewUpdateReply());
+    }
+
+    public function attempt_to_delete_a_reply()
+    {
+        return $this->sendDeleteRequest('/api/reply/'.Reply::first()->id);
     }
 }

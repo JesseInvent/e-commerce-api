@@ -66,7 +66,7 @@ class ReviewController extends Controller
     {
         if ($review->wasCreatedBy(auth()->user())) {
 
-            $review->update($request->all());
+            $review->update(['body' => $request->body]);
             return response()->json(['Updated'], Response::HTTP_ACCEPTED);
         }
 

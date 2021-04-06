@@ -42,7 +42,6 @@ class ReviewsLikesTest extends TestCase
         $this->perform_review_like();
         $response = $this->attempt_to_like_a_review();
 
-
         //Assertions
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->AssertThatErrorExists($response);

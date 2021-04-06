@@ -20,7 +20,7 @@ class AuthController extends Controller
     {
         $token = $user->createToken('accessToken', ['admin'])->plainTextToken;
 
-        return response()->json(['user' => $user, 'token' => $token], Response::HTTP_OK);
+        return response()->json([new UserResource($user), 'token' => $token], Response::HTTP_OK);
     }
 
     public function  signup(SignupRequest $request)

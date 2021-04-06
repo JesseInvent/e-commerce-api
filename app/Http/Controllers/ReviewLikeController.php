@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ReviewLikeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -26,7 +30,7 @@ class ReviewLikeController extends Controller
             return response()->json(['message' => 'Review successfully liked'], Response::HTTP_CREATED);
        }
 
-       return response()->json(['errors' => 'Reviews already liked by user'], Response::HTTP_UNPROCESSABLE_ENTITY);
+       return response()->json(['errors' => 'Review already liked by user'], Response::HTTP_UNPROCESSABLE_ENTITY);
 
     }
 
