@@ -14,6 +14,11 @@ class ReplyResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'body' => $this->body,
+            'link' => route('reply.show', $this->id),
+            'created' => $this->created_at->diffForHumans(),
+        ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ReplyResource;
 use App\Models\Reply;
 use App\Models\Review;
 use Illuminate\Http\Request;
@@ -9,6 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ReplyController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except('show');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -34,10 +41,10 @@ class ReplyController extends Controller
                 'body' => $request->body
             ]);
 
-            return response()->json($reply, Response::HTTP_CREATED);
+            return response()->json(new ReplyResource($reply), Response::HTTP_CREATED);
         }
 
-        return response()->json(['errors' => 'User didn`t create product, can`t reply product review'], Response::HTTP_CREATED);
+        return response()->json(['errors' => 'User didn`t create product, can`t reply review'], Response::HTTP_BAD_REQUEST);
 
     }
 
@@ -49,7 +56,7 @@ class ReplyController extends Controller
      */
     public function show(Reply $reply)
     {
-        return response()->json($reply, Response::HTTP_OK);
+        return response()->json(new ReplyResource($reply), Response::HTTP_OK);
     }
 
 

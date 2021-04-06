@@ -19,6 +19,7 @@ class ReviewResource extends JsonResource
             'body' => $this->body,
             'link' => route('review.update', $this->id),
             'likes' => $this->likes()->count(),
+            'replies' => ReplyResource::collection($this->replies),
             'created' => $this->created_at->diffForHumans()
         ];
     }
