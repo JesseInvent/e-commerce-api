@@ -60,6 +60,8 @@ class OrderController extends Controller
             return response()->json(new OrderResource($order), Response::HTTP_OK);
         }
 
+        return response()->json(['errors' => 'User not permitted to carry out this task'], Response::HTTP_BAD_REQUEST);
+
     }
 
     /**
