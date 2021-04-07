@@ -5,12 +5,13 @@ namespace Tests\Feature\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\Helpers\Assertions;
 use Tests\TestCase;
 use Tests\UserActions;
 
 class UserTest extends TestCase
 {
-    use RefreshDatabase, UserActions;
+    use RefreshDatabase, UserActions, Assertions;
 
     /** @test */
     public function an_authenticated_user_can_get_user_details()
@@ -21,7 +22,7 @@ class UserTest extends TestCase
 
         // Assertion
         $response->assertStatus(Response::HTTP_ACCEPTED);
-        $this->assertNotNull($response->getData());
+        $this->AssertThatResponseBodyWasReturned($response);
 
     }
 

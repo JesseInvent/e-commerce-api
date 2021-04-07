@@ -3,28 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Resources\OrderResource;
+use App\Http\Resources\ProductResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Product $product)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        if ($product->wasCreatedBy(auth()->user())) {
+            $orders = $product->orders()->get();
+            return response()->json(OrderResource::collection($orders), Response::HTTP_OK);
+        }
     }
 
     /**
@@ -33,9 +35,14 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Product $product)
     {
-        //
+        $order = $product->orders()->create(array_merge($request->all(), [
+            'user_id' => auth()->user()->id,
+            'paid_status' => false
+        ]));
+
+        return response()->json(new OrderResource($order), Response::HTTP_CREATED);
     }
 
     /**
@@ -46,30 +53,11 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
+        if ($order->wasCreatedBy(auth()->user()) || $order->belongsToProductCreatedBy(auth()->user()) ) {
+            return response()->json(new OrderResource($order), Response::HTTP_OK);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
     }
 
     /**
@@ -80,6 +68,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+        return response([], Response::HTTP_NO_CONTENT);
     }
 }

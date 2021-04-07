@@ -95,7 +95,7 @@ class ProductsTest extends TestCase
 
         // Assertions
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertNotNull($response->getData());
+        $this->AssertThatResponseBodyWasReturned($response);
 
     }
 
@@ -112,7 +112,7 @@ class ProductsTest extends TestCase
 
         // Assertions
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertNotNull($response->getData());
+        $this->AssertThatResponseBodyWasReturned($response);
 
     }
 
@@ -145,7 +145,7 @@ class ProductsTest extends TestCase
 
         // Assertions
         $response->assertStatus(Response::HTTP_ACCEPTED);
-        $this->assertNotNull($response->getData());
+        $this->AssertThatResponseBodyWasReturned($response);
     }
 
 }

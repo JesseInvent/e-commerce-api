@@ -56,9 +56,17 @@ trait Assertions
     {
         return $this->assertEquals(\App\Models\ProductLike::where('user_id', auth()->user()->id)->count(), 0);
     }
+
     protected function AssertThatReviewWasUnLiked()
     {
         return $this->assertEquals(\App\Models\ReviewLike::where('user_id', auth()->user()->id)->count(), 0);
     }
+
+    protected function AssertThatResponseBodyWasReturned($response)
+    {
+        return $this->assertNotNull($response->getData());
+
+    }
+
 
 }

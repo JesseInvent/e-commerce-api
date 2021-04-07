@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProductController;
@@ -30,8 +31,8 @@ Route::post('product/{product}/like', [ProductLikeController::class, 'store'])->
 Route::delete('product/{product}/like', [ProductLikeController::class, 'destroy'])->name('product.unlike');
 Route::get('product/{product}/review', [ReviewController::class, 'index'])->name('product.getReviews');
 Route::post('product/{product}/review', [ReviewController::class, 'store'])->name('product.createReviews');
-Route::get('product/{product}/order', [ReviewController::class, 'index'])->name('product.getOrders');
-Route::post('product/{product}/order', [ReviewController::class, 'store'])->name('product.createOrder');
+Route::get('product/{product}/order', [OrderController::class, 'index'])->name('product.getOrders');
+Route::post('product/{product}/order', [OrderController::class, 'store'])->name('product.createOrder');
 
 Route::post('review/{review}/like', [ReviewLikeController::class, 'store'])->name('review.like');
 Route::delete('review/{review}/like', [ReviewLikeController::class, 'destroy'])->name('review.unlike');
@@ -41,7 +42,7 @@ Route::delete('review/{review}/reply', [ReplyController::class, 'destroy'])->nam
 Route::apiResource('product', ProductController::class);
 Route::apiResource('review', ReviewController::class);
 Route::apiResource('reply', ReplyController::class);
-Route::apiResource('order', ReplyController::class);
+Route::apiResource('order', OrderController::class);
 
 
 Route::group([

@@ -78,7 +78,7 @@ class ReviewsTest extends TestCase
 
         // Arrange
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertNotNull($response->getData());
+        $this->AssertThatResponseBodyWasReturned($response);
     }
 
     /** @test */
@@ -91,7 +91,7 @@ class ReviewsTest extends TestCase
 
         // Arrange
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertNotNull($response->getData());
+        $this->AssertThatResponseBodyWasReturned($response);
     }
 
 }

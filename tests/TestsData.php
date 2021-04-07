@@ -64,4 +64,12 @@ class TestsData {
         ];
     }
 
+    public static function orderProduct() :array
+    {
+        return [
+            'units' => '10',
+            'total_price' => '23000'
+        ];
+    }
+
 }

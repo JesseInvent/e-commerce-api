@@ -41,7 +41,7 @@ class ReviewsRepliesTest extends TestCase
 
         // Assertions
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertNotNull($response->getData());
+        $this->AssertThatResponseBodyWasReturned($response);
     }
 
     /** @test */

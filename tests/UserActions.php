@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Reply;
 use App\Models\Review;
@@ -181,5 +182,26 @@ trait UserActions {
     public function attempt_to_delete_a_reply()
     {
         return $this->sendDeleteRequest('/api/reply/'.Reply::first()->id);
+    }
+
+    // Orders
+    public function attempt_to_order_a_product()
+    {
+        return $this->sendPostRequest('/api/product/'.Product::first()->id.'/order', TestsData::orderProduct());
+    }
+
+    public function attempt_to_product_orders()
+    {
+        return $this->sendGetRequest('/api/product/'.Product::first()->id.'/order');
+    }
+
+    public function attempt_to_get_an_order()
+    {
+        return $this->sendGetRequest('/api/order/'.Order::first()->id);
+    }
+
+    public function attempt_to_delete_an_order()
+    {
+        return $this->sendDeleteRequest('/api/order/'.Order::first()->id);
     }
 }
