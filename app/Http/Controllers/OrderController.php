@@ -24,7 +24,7 @@ class OrderController extends Controller
     public function index(Product $product)
     {
         if ($product->wasCreatedBy(auth()->user())) {
-            $orders = $product->orders()->get();
+            $orders = $product->orders()->paginate(20);
             return response()->json(OrderResource::collection($orders), Response::HTTP_OK);
         }
     }
@@ -55,13 +55,11 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-
         if ($order->wasCreatedBy(auth()->user()) || $order->belongsToProductCreatedBy(auth()->user()) ) {
             return response()->json(new OrderResource($order), Response::HTTP_OK);
         }
 
         return response()->json(['errors' => 'User not permitted to carry out this task'], Response::HTTP_BAD_REQUEST);
-
     }
 
     /**
@@ -72,7 +70,11 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        $order->delete();
-        return response([], Response::HTTP_NO_CONTENT);
+        if ($order->wasCreatedBy(auth()->user()) || $order->belongsToProductCreatedBy(auth()->user()) ) {
+            $order->delete();
+            return response([], Response::HTTP_NO_CONTENT);
+        }
+
+        return response()->json(['errors' => 'User not permitted to carry out this task, user must be creator of order or owner of product'], Response::HTTP_BAD_REQUEST);
     }
 }

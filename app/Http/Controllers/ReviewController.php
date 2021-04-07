@@ -23,7 +23,7 @@ class ReviewController extends Controller
      */
     public function index(Product $product)
     {
-        $reviews = $product->reviews()->latest()->with('replies')->get();
+        $reviews = $product->reviews()->latest()->with('replies')->paginate(20);
         return response()->json(ReviewResource::collection($reviews), Response::HTTP_OK);
     }
 
