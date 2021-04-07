@@ -27,7 +27,7 @@ class Review extends Model
 
     public function belongsToProductCreatedBy($user)
     {
-        return (int) $this->user_id === (int) $this->product()->user_id;
+        return (int) $user->id === (int) $this->product()->first()->id;
     }
 
     public function hasBeenlikedBy(User $user)
