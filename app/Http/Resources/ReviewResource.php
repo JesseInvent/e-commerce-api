@@ -17,7 +17,7 @@ class ReviewResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
-            'link' => route('review.update', $this->id),
+            'link' => route('review.show', $this->id),
             'likes' => $this->likes()->count(),
             'replies' => ReplyResource::collection($this->replies),
             'created' => $this->created_at->diffForHumans()
