@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\OrderResource;
-use App\Http\Resources\ProductResource;
 use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends Controller
@@ -35,12 +35,14 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Product $product)
+    public function store(OrderRequest $request, Product $product)
     {
         $order = $product->orders()->create(array_merge($request->all(), [
             'user_id' => auth()->user()->id,
             'paid_status' => false
         ]));
+
+        // notify user
 
         return response()->json(new OrderResource($order), Response::HTTP_CREATED);
     }
