@@ -18,6 +18,7 @@ class OrderResource extends JsonResource
             'id' => $this->id,
             'units' => $this->units,
             'cost' => $this->total_price,
+            'ordered_at' => $this->created_at->diffForHumans()
         ];
     }
 }
