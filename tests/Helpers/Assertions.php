@@ -2,6 +2,7 @@
 
 namespace Tests\Helpers;
 
+use Illuminate\Support\Facades\DB;
 
 trait Assertions
 {
@@ -68,5 +69,10 @@ trait Assertions
 
     }
 
+    protected function AssertThatANotificationWasCreated()
+    {
+        return $this->assertNotNull(DB::table('notifications')->first());
+
+    }
 
 }

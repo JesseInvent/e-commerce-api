@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductLike;
+use App\Notifications\ProductLiked;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -25,10 +26,12 @@ class ProductLikeController extends Controller
     {
         if (!$product->hasBeenlikedBy(auth()->user())) {
 
-            $product->likes()->create([
+           $like = $product->likes()->create([
                 'user_id' => auth()->user()->id
             ]);
 
+            $user = $product->user;
+            $user->notify(new ProductLiked($like));
             return response()->json(['message' => 'Product successfully liked'], Response::HTTP_CREATED);
 
         }
@@ -36,7 +39,6 @@ class ProductLikeController extends Controller
         return response()->json([
                 'errors' => 'Product already liked by user'
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
-
 
         // Notify user
     }

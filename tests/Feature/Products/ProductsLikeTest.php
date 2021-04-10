@@ -2,13 +2,14 @@
 
 namespace Tests\Feature\Products;
 
-use App\Models\ProductLike;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Symfony\Component\HttpFoundation\Response;
-use Tests\Helpers\Assertions;
 use Tests\TestCase;
 use Tests\UserActions;
+use App\Models\ProductLike;
+use Tests\Helpers\Assertions;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\WithFaker;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProductsLikeTest extends TestCase
 {
@@ -31,6 +32,7 @@ class ProductsLikeTest extends TestCase
         // Assertions
         $response->assertStatus(Response::HTTP_CREATED);
         $this->AssertThatPostWasLiked();
+        $this->AssertThatANotificationWasCreated();
 
     }
 

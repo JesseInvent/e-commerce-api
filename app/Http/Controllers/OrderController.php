@@ -28,8 +28,6 @@ class OrderController extends Controller
             return response()->json(OrderResource::collection($orders), Response::HTTP_OK);
         }
 
-
-
         return response()->json(['errors' => 'User not allowed to perform this request'], Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
     }
 
