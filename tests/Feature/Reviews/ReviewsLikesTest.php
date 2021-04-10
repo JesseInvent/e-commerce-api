@@ -36,7 +36,6 @@ class ReviewsLikesTest extends TestCase
         $this->AssertThatANotificationForUserWasCreated();
     }
 
-
     /** @test */
     public function an_authenticated_user_cannot_like_a_review_twice ()
     {
@@ -48,7 +47,6 @@ class ReviewsLikesTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->AssertThatErrorExists($response);
     }
-
 
     /** @test */
     public function an_authenticated_user_can_unliked_a_review_liked_by_that_user ()

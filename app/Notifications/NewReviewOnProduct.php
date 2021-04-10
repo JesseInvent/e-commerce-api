@@ -62,7 +62,6 @@ class NewReviewOnProduct extends Notification
             'reviewedByUserName' => auth()->user()->name,
             'product' => $this->review->product_id,
             'product_link' => route('product.show', $this->review->product_id),
-
         ];
     }
 }

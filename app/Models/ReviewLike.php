@@ -13,4 +13,6 @@ class ReviewLike extends Model
     protected $fillable = [
         'user_id'
     ];
+
+    
 }
