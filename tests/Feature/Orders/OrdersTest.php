@@ -2,13 +2,14 @@
 
 namespace Tests\Feature\Orders;
 
+use Tests\TestCase;
 use App\Models\Order;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\UserActions;
+use Tests\Helpers\Assertions;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\WithFaker;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\Helpers\Assertions;
-use Tests\TestCase;
-use Tests\UserActions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrdersTest extends TestCase
 {
@@ -17,14 +18,16 @@ class OrdersTest extends TestCase
     /** @test */
     public function a_user_can_order_a_product()
     {
-        $this->withoutExceptionHandling();
         // Act
         $this->attempt_to_signup_and_create_a_product();
         $response = $this->attempt_to_order_a_product();
 
+        dd(DB::table('notifications')->first());
+
         // Assertions
         $response->assertStatus(Response::HTTP_CREATED);
         $this->AssertThatModelWasCreated(Order::class);
+        $this->AssertThatANotificationForUserWasCreated();
 
     }
 
@@ -70,5 +73,17 @@ class OrdersTest extends TestCase
         $this->AssertThatResponseBodyWasReturned($response);
     }
 
+
+    /** @test */
+    public function an_owner_of_a_product_can_accept_an_order_for_a_product()
+    {
+
+    }
+
+   /** @test */
+   public function an_owner_of_a_product_can_reject_an_order_for_a_product()
+   {
+
+   }
 
 }

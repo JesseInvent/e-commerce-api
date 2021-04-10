@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\OrderResource;
+use App\Notifications\NewOrderMade;
 use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends Controller
@@ -44,7 +45,7 @@ class OrderController extends Controller
             'paid_status' => false
         ]));
 
-        // notify user
+        $product->user->notify(new NewOrderMade($order));
 
         return response()->json(new OrderResource($order), Response::HTTP_CREATED);
     }
@@ -62,6 +63,17 @@ class OrderController extends Controller
         }
 
         return response()->json(['errors' => 'User not allowed to perform this request'], Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+    }
+
+    public function accept(Order $order)
+    {
+        // owner of product
+    }
+
+
+    public function reject(Order $order)
+    {
+        // owner of product
     }
 
     /**

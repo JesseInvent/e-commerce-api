@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,14 +12,16 @@ class NewOrderMade extends Notification
 {
     use Queueable;
 
+    public $order;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Order $order)
     {
-        //
+        $this->order = $order;
     }
 
     /**
@@ -29,7 +32,7 @@ class NewOrderMade extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -38,13 +41,13 @@ class NewOrderMade extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
+    // public function toMail($notifiable)
+    // {
+    //     return (new MailMessage)
+    //                 ->line('The introduction to the notification.')
+    //                 ->action('Notification Action', url('/'))
+    //                 ->line('Thank you for using our application!');
+    // }
 
     /**
      * Get the array representation of the notification.
@@ -55,7 +58,11 @@ class NewOrderMade extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'orderUserId' => auth()->user()->id,
+            'orderUserName' => auth()->user()->name,
+            'productName' => $this->order->product->name,
+            'productLink' => route('product.show', $this->order->product_id),
+            'units' => $this->order->units
         ];
     }
 }
