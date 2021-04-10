@@ -59,8 +59,8 @@ class ProductLiked extends Notification
     public function toArray($notifiable)
     {
         return [
-            'likeByUserId' => auth()->user()->id,
-            'likedBy' => auth()->user()->name,
+            'likedByUserId' => auth()->user()->id,
+            'likedByUserName' => auth()->user()->name,
             'product' => $this->like->product_id,
             'product_link' => route('product.show', $this->like->product_id),
         ];
