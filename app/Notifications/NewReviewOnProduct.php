@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Review;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,14 +12,16 @@ class NewReviewOnProduct extends Notification
 {
     use Queueable;
 
+    public $review;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Review $review)
     {
-        //
+        $this->review = $review;
     }
 
     /**
@@ -29,7 +32,7 @@ class NewReviewOnProduct extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -38,13 +41,13 @@ class NewReviewOnProduct extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
+    // public function toMail($notifiable)
+    // {
+    //     return (new MailMessage)
+    //                 ->line('The introduction to the notification.')
+    //                 ->action('Notification Action', url('/'))
+    //                 ->line('Thank you for using our application!');
+    // }
 
     /**
      * Get the array representation of the notification.
@@ -55,7 +58,11 @@ class NewReviewOnProduct extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'reviewedByUserId' => auth()->user()->id,
+            'reviewedByUserName' => auth()->user()->name,
+            'product' => $this->review->product_id,
+            'product_link' => route('product.show', $this->review->product_id),
+
         ];
     }
 }

@@ -32,7 +32,7 @@ class ProductsLikeTest extends TestCase
         // Assertions
         $response->assertStatus(Response::HTTP_CREATED);
         $this->AssertThatPostWasLiked();
-        $this->AssertThatANotificationWasCreated();
+        $this->AssertThatANotificationForUserWasCreated();
 
     }
 

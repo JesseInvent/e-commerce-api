@@ -30,8 +30,7 @@ class ProductLikeController extends Controller
                 'user_id' => auth()->user()->id
             ]);
 
-            $user = $product->user;
-            $user->notify(new ProductLiked($like));
+            $product->user->notify(new ProductLiked($like));
             return response()->json(['message' => 'Product successfully liked'], Response::HTTP_CREATED);
 
         }
@@ -40,7 +39,6 @@ class ProductLikeController extends Controller
                 'errors' => 'Product already liked by user'
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
 
-        // Notify user
     }
 
     /**

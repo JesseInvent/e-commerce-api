@@ -69,10 +69,9 @@ trait Assertions
 
     }
 
-    protected function AssertThatANotificationWasCreated()
+    protected function AssertThatANotificationForUserWasCreated()
     {
-        return $this->assertNotNull(DB::table('notifications')->first());
-
+        return $this->assertEquals(DB::table('notifications')->first()->notifiable_id, auth()->user()->id);
     }
 
 }

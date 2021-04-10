@@ -2,13 +2,14 @@
 
 namespace Tests\Feature\Reviews;
 
-use App\Models\ReviewLike;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Symfony\Component\HttpFoundation\Response;
-use Tests\Helpers\Assertions;
 use Tests\TestCase;
 use Tests\UserActions;
+use App\Models\ReviewLike;
+use Tests\Helpers\Assertions;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\WithFaker;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ReviewsLikesTest extends TestCase
 {
@@ -32,6 +33,7 @@ class ReviewsLikesTest extends TestCase
         //Assertions
         $response->assertStatus(Response::HTTP_CREATED);
         $this->AssertThatModelWasCreated(ReviewLike::class);
+        $this->AssertThatANotificationForUserWasCreated();
     }
 
 

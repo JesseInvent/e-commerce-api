@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReviewRequest;
 use App\Http\Resources\ReviewResource;
+use App\Notifications\NewReviewOnProduct;
 use Symfony\Component\HttpFoundation\Response;
 
 class ReviewController extends Controller
@@ -40,7 +41,7 @@ class ReviewController extends Controller
                                         'user_id' => auth()->user()->id
                                     ]);
         // notify user
-
+        $product->user->notify(new NewReviewOnProduct($review));
         return response()->json(new ReviewResource($review), Response::HTTP_CREATED);
     }
 
@@ -67,6 +68,7 @@ class ReviewController extends Controller
         if ($review->wasCreatedBy(auth()->user())) {
 
             $review->update(['body' => $request->body]);
+
             return response()->json(['Updated'], Response::HTTP_ACCEPTED);
         }
 
