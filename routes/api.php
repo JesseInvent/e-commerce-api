@@ -60,6 +60,16 @@ Route::group([
 
 });
 
+
+Route::group([
+    'prefix' => 'order'
+], function() {
+
+    Route::post('{order}/accept', [OrderController::class, 'acceptOrder'])->name('order.accept');
+    Route::post('{order}/processed', [OrderController::class, 'processedOrder'])->name('order.processed');
+    Route::post('{order}/reject', [OrderController::class, 'rejectOrder'])->name('order.reject');
+});
+
 Route::apiResource('product', ProductController::class);
 Route::apiResource('review', ReviewController::class);
 Route::apiResource('reply', ReplyController::class);

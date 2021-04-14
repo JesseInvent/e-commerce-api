@@ -190,7 +190,7 @@ trait UserActions {
         return $this->sendPostRequest('/api/product/'.Product::first()->id.'/order', TestsData::orderProduct());
     }
 
-    public function attempt_to_product_orders()
+    public function attempt_to_get_product_orders()
     {
         return $this->sendGetRequest('/api/product/'.Product::first()->id.'/order');
     }
@@ -203,5 +203,10 @@ trait UserActions {
     public function attempt_to_delete_an_order()
     {
         return $this->sendDeleteRequest('/api/order/'.Order::first()->id);
+    }
+
+    public function attempt_to_accept_product_order()
+    {
+        return $this->sendPostRequest('/api/order/'.Order::first()->id.'/accept', []);
     }
 }

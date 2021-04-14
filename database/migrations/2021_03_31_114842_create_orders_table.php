@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete;
             $table->integer('units');
             $table->float('total_price');
+            $table->enum('status', ['rejected', 'accepted', 'processed'])->nullable();
             $table->boolean('paid_status')->default(false);
             $table->timestamps();
         });

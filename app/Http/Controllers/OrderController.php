@@ -65,13 +65,19 @@ class OrderController extends Controller
         return response()->json(['errors' => 'User not allowed to perform this request'], Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
     }
 
-    public function accept(Order $order)
+    public function acceptOrder(Order $order)
     {
-        // owner of product
+        if ($order->belongsToProductCreatedBy(auth()->user())) {
+            $order->update(['status' => 'accepted']);
+            return response()->json(new OrderResource($order), Response::HTTP_OK);
+        }
+
+        return response()->json(['errors' => 'Orders can only be accepted by who owns the product'], Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+
     }
 
 
-    public function reject(Order $order)
+    public function rejectOrder(Order $order)
     {
         // owner of product
     }

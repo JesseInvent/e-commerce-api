@@ -14,7 +14,8 @@ class Order extends Model
         'units',
         'total_price',
         'user_id',
-        'paid_status'
+        'paid_status',
+        'status'
     ];
 
     public function belongsToProductCreatedBy($user)
