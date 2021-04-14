@@ -80,8 +80,6 @@ class OrdersTest extends TestCase
     /** @test */
     public function an_owner_of_a_product_can_accept_an_order_for_a_product()
     {
-        $this->withoutExceptionHandling();
-
         // Act
         $this->perform_product_ordering_process();
         $response = $this->attempt_to_accept_product_order();
@@ -92,10 +90,17 @@ class OrdersTest extends TestCase
         $this->assertEquals('accepted', Order::first()->status);
     }
 
-//    /** @test */
-//    public function an_owner_of_a_product_can_reject_an_order_for_a_product()
-//    {
+   /** @test */
+   public function an_owner_of_a_product_can_reject_an_order_for_a_product()
+   {
+        // Act
+        $this->perform_product_ordering_process();
+        $response = $this->attempt_to_reject_product_order();
 
-//    }
+        // Assertions
+        $response->assertStatus(Response::HTTP_OK);
+        $this->AssertThatModelWasCreated(Order::class);
+        $this->assertEquals('rejected', Order::first()->status);
+   }
 
 }

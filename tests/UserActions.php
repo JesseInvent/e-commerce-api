@@ -209,4 +209,9 @@ trait UserActions {
     {
         return $this->sendPostRequest('/api/order/'.Order::first()->id.'/accept', []);
     }
+
+    public function attempt_to_reject_product_order()
+    {
+        return $this->sendPostRequest('/api/order/'.Order::first()->id.'/reject', []);
+    }
 }
