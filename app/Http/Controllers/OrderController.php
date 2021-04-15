@@ -79,7 +79,6 @@ class OrderController extends Controller
 
     }
 
-
     public function rejectOrder(Order $order)
     {
         if ($order->belongsToProductCreatedBy(auth()->user())) {
@@ -87,7 +86,8 @@ class OrderController extends Controller
             return response()->json(new OrderResource($order), Response::HTTP_OK);
         }
 
-        return response()->json(['errors' => 'Orders can only be rejected by who owns the product'], Response::HTTP_NON_AUTHORITATIVE_INFORMATION);    }
+        return response()->json(['errors' => 'Orders can only be rejected by who owns the product'], Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+    }
 
     /**
      * Remove the specified resource from storage.

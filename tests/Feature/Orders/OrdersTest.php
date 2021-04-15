@@ -90,6 +90,7 @@ class OrdersTest extends TestCase
         $this->assertEquals('accepted', Order::first()->status);
     }
 
+
    /** @test */
    public function an_owner_of_a_product_can_reject_an_order_for_a_product()
    {
