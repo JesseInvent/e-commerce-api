@@ -88,6 +88,7 @@ class OrdersTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $this->AssertThatModelWasCreated(Order::class);
         $this->assertEquals('accepted', Order::first()->status);
+        $this->AssertThatANotificationForUserWasCreated();
     }
 
 

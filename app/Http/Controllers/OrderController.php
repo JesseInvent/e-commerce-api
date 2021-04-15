@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\OrderResource;
 use App\Notifications\NewOrderMade;
+use App\Notifications\OrderAccepted;
 use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends Controller
@@ -68,10 +69,10 @@ class OrderController extends Controller
     public function acceptOrder(Order $order)
     {
         if ($order->belongsToProductCreatedBy(auth()->user())) {
+            
             $order->update(['status' => 'accepted']);
+            $order->product->user->notify(new OrderAccepted($order));
             return response()->json(new OrderResource($order), Response::HTTP_OK);
-
-            // notify user
 
         }
 

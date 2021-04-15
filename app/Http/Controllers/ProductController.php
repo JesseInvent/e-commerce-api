@@ -57,7 +57,6 @@ class ProductController extends Controller
         $search = $request->query('search');
         $products = Product::where('name', 'like', '%'.$search.'%')->get();
         return response()->json(ProductResource::collection($products), Response::HTTP_ACCEPTED);
-
     }
 
     /**
