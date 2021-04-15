@@ -3,9 +3,10 @@
 namespace App\Exceptions;
 
 use Throwable;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -38,7 +39,10 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (Throwable $e) {
             if ($e instanceof NotFoundHttpException) {
-                return response()->json(["error" => "Model not found"], Response::HTTP_BAD_REQUEST);
+                return response()->json(["errors" => "Model not found"], Response::HTTP_BAD_REQUEST);
+            }
+            else if ($e instanceof MethodNotAllowedHttpException) {
+                return response()->json(["errors" => "Invalid route"], Response::HTTP_BAD_REQUEST);
             }
         });
     }
